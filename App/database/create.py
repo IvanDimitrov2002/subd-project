@@ -23,6 +23,6 @@ def createDB():
     conn.cursor().execute('''CREATE TABLE IF NOT EXISTS AuthorsBooks
                         (ISBN_b VARCHAR(17),
                         ID_auth INT,
-                        PRIMARY KEY (ISBN, ID_auth),
-                        FOREIGN KEY (ISBN_B) REFERNCES Books(ISBN),
-                        FOREING KEY (ID_auth) REFERENCES Authors(ID));''')
+                        PRIMARY KEY (ISBN_b, ID_auth),
+                        FOREIGN KEY (ISBN_b) REFERENCES Books(ISBN),
+                        FOREIGN KEY (ID_auth) REFERENCES Authors(ID) );''')

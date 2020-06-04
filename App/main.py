@@ -1,6 +1,6 @@
-import Flask
-import render_template
-import url_for
+from flask import Flask
+from flask import render_template
+from flask import url_for
 
 import database.create as database
 
@@ -8,7 +8,7 @@ import database.create as database
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world:
+def hello_world():
     return 'Hello world!'
 
 if __name__ == '__main__':
