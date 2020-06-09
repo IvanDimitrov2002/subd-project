@@ -88,6 +88,23 @@ def extract_book(title):
         conn.close()
 
 
+def extract_genre_books(genre):
+    conn = create_conn()
+    try:
+        sql = '''SELECT Title, Genre, Date, ISBN, ID
+        FROM Books WHERE Genre = %s;'''
+        result = conn.cursor()
+        result.execute(sql, (genre, ))
+        return result.fetchall()
+
+    except Error as e:
+        print(e)
+
+    finally:
+        result.close()
+        conn.close()
+
+
 def find_books(name):
     conn = create_conn()
     try:

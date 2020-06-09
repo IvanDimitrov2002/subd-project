@@ -19,3 +19,14 @@ class Book:
                 return Book(*row)
             else:
                 return None
+
+    @staticmethod
+    def find_by_genre(genre):
+        if not genre:
+            return None
+        else:
+            row = database.extract_genre_books(genre)
+            if row:
+                return Book(*row)
+            else:
+                return None
