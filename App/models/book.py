@@ -1,4 +1,4 @@
-from database import database_funs as database
+from database import database_funcs as database
 
 
 class Book:
@@ -14,7 +14,7 @@ class Book:
         if not title:
             return None
         else:
-            row = database.extract_book(title)
+            row = database.get_book_by_title(title)
             if row:
                 return Book(*row)
             else:
@@ -25,7 +25,7 @@ class Book:
         if not genre:
             return None
         else:
-            row = database.extract_genre_books(genre)
+            row = database.get_books_by_genre(genre)
             if row:
                 return Book(*row)
             else:
