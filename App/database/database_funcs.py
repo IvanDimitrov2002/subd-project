@@ -1,5 +1,5 @@
 from mysql.connector import Error
-import connect as database
+import database.connect as database
 
 
 def __create_conn():

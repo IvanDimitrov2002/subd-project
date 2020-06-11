@@ -1,6 +1,6 @@
 from mysql.connector import Error
 
-import connect as database
+import database.connect as database
 
 # CREATE DB IF NOT EXISTS AND ONE TABLE FOR
 # Authors, ONE FOR BOOKS
