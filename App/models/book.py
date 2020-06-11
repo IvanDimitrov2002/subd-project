@@ -52,6 +52,9 @@ class Book:
         else:
             row = database.get_books_by_genre(genre)
             if row:
-                return Book(*row)
+                books = list()
+                for i in row:
+                    books.append(Book(*i))
+                return books 
             else:
                 return None
