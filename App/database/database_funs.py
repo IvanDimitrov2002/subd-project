@@ -105,16 +105,16 @@ def extract_genre_books(genre):
         conn.close()
 
 
-def find_books(name):
+def find_books(author_name):
     conn = create_conn()
     try:
         sql = '''SELECT Books.Title, Books.Genre, Books.Date, Books.ISBN
         FROM Authors INNER JOIN AuthorsBooks
         ON Authors.ID = AuthorsBooks.ID_auth INNER JOIN Books
         ON Books.ID = AuthorsBooks.ID_b
-        WHERE Name = %s;'''
+        WHERE Authors.Name = %s;'''
         result = conn.cursor()
-        result.execute(sql, (name, ))
+        result.execute(sql, (author_name, ))
         return result.fetchall()
 
     except Error as e:
