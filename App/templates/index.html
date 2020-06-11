@@ -3,32 +3,34 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <title>Library</title>
     </head>
     <body>
        <header class="main-header">
            <h1 class="header-title">Library</h1>
            <nav class="header-navbar">
-               <a href="index.html">Home</a>
+               <a href="/">Home</a>
                <a href="#">Books</a>
                <a href="#">Authors</a>
                <a href="#">Add Book</a>
             </nav>
        </header>
        <div class="main-content">
-            <form class="content-form" action="" method="GET">
+            <form class="content-form" action="/books" method="GET">
                 <div class="form-actions">
                     <input class="form-input" type="text" value="" placeholder="Search by book name...">
                     <button class="form-submit" type="submit">Search</button>
                 </div>
                 <div class="form-radio">
-                    <input type="radio" id="book" name="search" value="book" checked>
+                    <input type="radio" id="book" name="search" value="book" checked onChange="changeSearch()">
                     <label for="book">Search by book</label>
-                    <input type="radio" id="author" name="search" value="author">
+                    <input type="radio" id="author" name="search" value="author" onChange="changeSearch()">
                     <label for="author">Search by author</label>  
                 </div>
             </form>
        </div>
+
+       <script async defer src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
