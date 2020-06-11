@@ -10,6 +10,17 @@ class Book:
         self.genre = genre
 
     @staticmethod
+    def find_by_id(id):
+        if not id:
+            return None
+        else:
+            row = database.get_book_by_id(id)
+            if row:
+                return Book(*row)
+            else:
+                return None
+
+    @staticmethod
     def find_by_title(title):
         if not title:
             return None
