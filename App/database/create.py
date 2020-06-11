@@ -30,9 +30,9 @@ def createDB():
                             FOREIGN KEY (ID_b) REFERENCES Books(ID),
                             FOREIGN KEY (ID_auth) REFERENCES Authors(ID));''')
 
-        conn.cursor().execute('''CREATE INDEX authors_name ON Authors (Name);''')
+#    conn.cursor().execute('''CREATE INDEX authors_name ON Authors (Name);''')
 
-        conn.cursor().execute('''CREATE INDEX books_name ON Books (Title);''')
+#    conn.cursor().execute('''CREATE INDEX books_name ON Books (Title);''')
 
     except Error:
         print(Error)
