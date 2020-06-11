@@ -2,7 +2,7 @@ from database import database_funcs as database
 
 
 class Book:
-    def __init__(self, title, genre, date, isbn, id=None):
+    def __init__(self, id, isbn, genre, title, date):
         self.id = id
         self.title = title
         self.isbn = isbn
@@ -36,11 +36,27 @@ class Book:
         if not genre:
             return None
         else:
-            row = database.get_books_by_genre(genre)
-            if row:
-                books = list()
-                for i in row:
-                    books.append(Book(*i))
-                return books 
+            rows = database.get_books_by_genre(genre)
+            if rows:
+                return [Book(*row) for row in rows]
             else:
                 return None
+
+    @staticmethod
+    def find_by_substring(substring):
+        if not substring:
+            return None
+        else:
+            rows = database.get_books_by_substring(substring)
+            if rows:
+                return [Book(*row) for row in rows]
+            else:
+                return None
+
+    @staticmethod
+    def get_all_books():
+        rows = database.get_all_books()
+        if rows:
+            return [Book(*row) for row in rows]
+        else:
+            return None

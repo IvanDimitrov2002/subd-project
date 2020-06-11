@@ -60,9 +60,10 @@ def get_all_books():
         conn.connect(database="Library")
         try:
             query = '''SELECT *
-                       FROM Books'''
-            res = conn.cursor().execute(query).fetchall()
-            return res
+                       FROM Books;'''
+            res = conn.cursor()
+            res.execute(query)
+            return res.fetchall()
 
         except Error as e:
             print(e)
@@ -91,6 +92,21 @@ def get_book_by_title(title):
                        WHERE Title = %s;'''
             res = conn.cursor().execute(query, (title, )).fetchone()
             return res
+
+        except Error as e:
+            print(e)
+
+
+def get_books_by_substring(substring):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Books
+                       WHERE Title LIKE %s;'''
+            res = conn.cursor()
+            res.execute(query, ("%" + substring + "%", ))
+            return res.fetchall()
 
         except Error as e:
             print(e)
@@ -128,28 +144,28 @@ def get_books_by_auth_name(auth_name):
             print(e)
 
 
-def __get_book_id_by_name(book_name):
+def __get_book_id_by_title(book_title):
     with DB() as conn:
         conn.connect(database="Library")
         try:
             query = '''SELECT Id
                        FROM Books
-                       WHERE Name = %s;'''
-            res = conn.cursor().execute(query, (book_name, )).fetchone()
+                       WHERE Title = %s;'''
+            res = conn.cursor().execute(query, (book_title, )).fetchone()
             return res
 
         except Error as e:
             print(e)
 
 
-def delete_book_by_name(book_name):
+def delete_book_by_title(book_title):
     with DB() as conn:
         conn.connect(database="Library")
         try:
             query = '''DELETE
                        FROM Books
                        WHERE Id = %s;'''
-            conn.cursor().execute(query, __get_book_id_by_name(book_name))
+            conn.cursor().execute(query, __get_book_id_by_title(book_title))
             conn.commit()
 
         except Error as e:

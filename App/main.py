@@ -1,7 +1,4 @@
-from flask import Flask
-from flask import render_template
-# from flask import url_for
-
+from flask import Flask, render_template, url_for, request
 import database.create as database
 
 from models.book import Book
@@ -11,13 +8,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html', message="Hello World!!!")
+    return render_template('index.html')
 
 
-@app.route('/books')
-def view_all_books(book_name, methods):
-    book = Book.find_by_id(id)
-    return book
+@app.route('/books', methods=['GET'])
+def view_books():
+    books = []
+    search_result = request.args.get('title')
+    if(search_result is not None and search_result != ""):
+        books = Book.find_by_substring(search_result)
+    else:
+        books = Book.get_all_books()
+    return render_template('books.html', books=books)
 
 
 if __name__ == '__main__':

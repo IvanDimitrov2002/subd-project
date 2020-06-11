@@ -35,5 +35,5 @@ def createDB():
                 );
             ''')
 
-        except Error:
-            print(Error)
+        except Error as e:
+            print(e)
