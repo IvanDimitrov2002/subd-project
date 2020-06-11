@@ -29,7 +29,7 @@ def insert_author(author):
     conn = __create_conn()
     try:
         sql = '''INSERT INTO Authors(NULL, Name)
-        VALUES(%s);'''
+        VALUES(%s,);'''
         conn.cursor().execute(sql, author)
         conn.commit()
 
@@ -124,4 +124,15 @@ def find_books(name):
         conn.close()
 
 
+def delete_book(name):
+    conn = create_conn()
+    try:
+        sql = '''DELETE FROM Books where Name = %s;'''
+        conn.cursor().execute(sql, name)
+        conn.commit()
 
+    except Error as e:
+        print(e)
+
+    finally:
+        conn.close()
