@@ -1,167 +1,129 @@
 from mysql.connector import Error
-import database.connect as database
-
-
-def __create_conn():
-    conn = database.connect_to_DB()
-    conn.connect(database="Library")
-    return conn
+from connect_db import DB
 
 
 def add_book(title, genre, isbn, date):
-    conn = __create_conn()
-    try:
-        sql = '''INSERT INTO Books(ID, Title, Genre, ISBN, Date)
-        VALUES(NULL, %s, %s, %s, %s);'''
-        conn.cursor().execute(sql, (title, genre, isbn, date))
-        conn.commit()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''INSERT INTO Books
+                       VALUES(NULL, %s, %s, %s, %s);'''
+            conn.cursor().execute(query, (title, genre, isbn, date))
 
-    except Error as e:
-        conn.rollback()
-        print(e)
-
-    finally:
-        conn.close()
+        except Error as e:
+            conn.rollback()
+            print(e)
 
 
-def add_author(author):
-    conn = __create_conn()
-    try:
-        sql = '''INSERT INTO Authors(ID, Name)
-        VALUES(NULL, %s);'''
-        conn.cursor().execute(sql, (author, ))
-        conn.commit()
+def add_author(author_name):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''INSERT INTO Authors
+                       VALUES(NULL, %s);'''
+            conn.cursor().execute(query, (author_name, ))
 
-    except Error as e:
-        conn.rollback()
-        print(e)
-
-    finally:
-        conn.close()
+        except Error as e:
+            conn.rollback()
+            print(e)
 
 
 def link_author_with_book(auth_id, book_id):
-    conn = __create_conn()
-    try:
-        sql = '''INSERT INTO AuthorsBooks(ID_auth, ID_b) VALUES(%s, %s);'''
-        conn.cursor().execute(sql, (auth_id, book_id))
-        conn.commit()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''INSERT INTO AuthorsBooks
+                       VALUES(%s, %s);'''
+            conn.cursor().execute(query, (auth_id, book_id))
 
-    except Error as e:
-        conn.rollback()
-        print(e)
-
-    finally:
-        conn.close()
+        except Error as e:
+            conn.rollback()
+            print(e)
 
 
 def get_author_by_name(auth_name):
-    conn = __create_conn()
-    try:
-        sql = 'SELECT Name, ID FROM Authors WHERE Name = %s;'
-        result = conn.cursor()
-        result.execute(sql, (auth_name, ))
-        return result.fetchone()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Authors
+                       WHERE Name = %s;'''
+            res = conn.cursor().execute(query, (auth_name, )).fetchone()
+            return res
 
-    except Error as e:
-        print(e)
-
-    finally:
-        conn.close()
+        except Error as e:
+            print(e)
 
 
-def get_book_by_title(title):
-    conn = __create_conn()
-    try:
-        sql = '''SELECT Title, Genre, Date, ISBN, ID
-            FROM Books WHERE Title = %s;'''
-        result = conn.cursor()
-        result.execute(sql, (title, ))
-        return result.fetchone()
+def get_book_by_id(book_id):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Books
+                       WHERE Id = %s;'''
+            res = conn.cursor().execute(query, (book_id, )).fetchone()
+            return res
 
-    except Error as e:
-        print(e)
+        except Error as e:
+            print(e)
 
-    finally:
-        result.close()
-        conn.close()
 
 def get_book_by_title(title):
-    conn = __create_conn()
-    try:
-        sql = '''SELECT Title, Genre, Date, ISBN, ID
-            FROM Books;'''
-        result = conn.cursor()
-        result.execute(sql, (title, ))
-        return result.fetchall()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Books
+                       WHERE Title = %s;'''
+            res = conn.cursor().execute(query, (title, )).fetchone()
+            return res
 
-    except Error as e:
-        print(e)
-
-    finally:
-        result.close()
-        conn.close()
+        except Error as e:
+            print(e)
 
 
 def get_books_by_genre(genre):
-    conn = __create_conn()
-    try:
-        sql = '''SELECT Title, Genre, Date, ISBN, ID
-                FROM Books WHERE Genre = %s;'''
-        result = conn.cursor()
-        result.execute(sql, (genre, ))
-        return result.fetchall()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Books
+                       WHERE Genre = %s;'''
+            res = conn.cursor().execute(query, (genre, )).fetchall()
+            return res
 
-    except Error as e:
-        print(e)
-
-    finally:
-        result.close()
-        conn.close()
+        except Error as e:
+            print(e)
 
 
 def get_books_by_auth_name(auth_name):
-    conn = __create_conn()
-    try:
-        sql = '''SELECT Books.Title, Books.Genre, Books.Date, Books.ISBN
-                FROM Authors INNER JOIN AuthorsBooks
-                ON Authors.ID = AuthorsBooks.ID_auth INNER JOIN Books
-                ON Books.ID = AuthorsBooks.ID_b
-                WHERE Authors.Name = %s;'''
-        result = conn.cursor()
-        result.execute(sql, (auth_name, ))
-        return result.fetchall()
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
+                       FROM Authors
+                       INNER JOIN AuthorsBooks
+                       ON Authors.Id = AuthorsBooks.Id_auth
+                       INNER JOIN Books
+                       ON Books.Id = AuthorsBooks.Id_b
+                       WHERE Name = %s;'''
+            res = conn.cursor().execute(query, (auth_name, )).fetchall()
+            return res
 
-    except Error as e:
-        print(e)
-
-    finally:
-        result.close()
-        conn.close()
+        except Error as e:
+            print(e)
 
 
-def delete_book_by_name(id):
-    conn = __create_conn()
-    try:
-        sql = '''DELETE FROM Books WHERE Name = %s;'''
-        conn.cursor().execute(sql, (book_name, ))
-        conn.commit()
+def delete_book_by_name(book_name):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''DELETE
+                       FROM Books
+                       WHERE Id = %s;'''
+            conn.cursor().execute(query, book_name)
+            conn.commit()
 
-    except Error as e:
-        print(e)
-
-    finally:
-        conn.close()
-
-def delete_book_by_name(id):
-    conn = __create_conn()
-    try:
-        sql = '''DELETE FROM Books WHERE ID = %s;'''
-        conn.cursor().execute(sql, (book_name, ))
-        conn.commit()
-
-    except Error as e:
-        print(e)
-
-    finally:
-        conn.close()
+        except Error as e:
+            print(e)
