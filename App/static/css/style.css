@@ -36,6 +36,7 @@ a {
 .main-header .header-navbar {
     display: flex;
     align-items: center;
+    text-align: center;
 }
 
 .main-header .header-navbar > * {
@@ -103,7 +104,31 @@ a {
 
 .main-content .content-form .form-radio > * {
     padding: 10px;
+}
+
+.main-content .content-form .form-radio > * > * {
     outline: none;
     cursor: pointer;
     user-select: none;
+}
+
+@media only screen and (max-width: 445px){
+    .main-header {
+        flex-direction: column;
+    }
+
+    .main-header > .header-title {
+        margin-top: 30px;
+    }
+}
+
+@media only screen and (max-width: 345px){
+    .main-content .content-form .form-actions {
+        text-align: center;
+    }
+
+    .main-content .content-form .form-actions .form-input {
+        width: 90%;
+        margin-bottom: 10px;
+    }
 }
