@@ -1,7 +1,7 @@
 from mysql.connector import Error
 
 # import database.connect as database
-from connect_db import DB
+from database.connect_db import DB
 
 
 def createDB():
