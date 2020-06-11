@@ -3,14 +3,14 @@ from mysql.connector import Error
 import database.connect as database
 
 
-def create_conn():
+def __create_conn():
     conn = database.connect_to_DB()
     conn.connect(database="Library")
     return conn
 
 
 def insert_book(book):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''INSERT INTO Books(NULL, Title,Genre, ISBN, DATE)
         VALUES(%s, %s, %s);'''
@@ -26,7 +26,7 @@ def insert_book(book):
 
 
 def insert_author(author):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''INSERT INTO Authors(NULL, Name)
         VALUES(%s);'''
@@ -42,7 +42,7 @@ def insert_author(author):
 
 
 def connect_author_wiht_book(id_b, id_auth):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''INSERT INTO AuthorsBooks(ID_auth, ID_b) VALUES(%s, %s);'''
         conn.cursor().execute(sql, id_auth, id_b)
@@ -57,7 +57,7 @@ def connect_author_wiht_book(id_b, id_auth):
 
 
 def extract_author(name):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = 'SELECT Name, Id FROM Authors WHERE Name = %s;'
         result = conn.cursor()
@@ -72,7 +72,7 @@ def extract_author(name):
 
 
 def extract_book(title):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''SELECT Title, Genre, Date, ISBN, ID
         FROM Books WHERE Title = %s;'''
@@ -89,7 +89,7 @@ def extract_book(title):
 
 
 def extract_genre_books(genre):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''SELECT Title, Genre, Date, ISBN, ID
         FROM Books WHERE Genre = %s;'''
@@ -106,7 +106,7 @@ def extract_genre_books(genre):
 
 
 def find_books(name):
-    conn = create_conn()
+    conn = __create_conn()
     try:
         sql = '''SELECT Books.Title, Books.Genre, Books.Date, Books.ISBN
         FROM Authors INNER JOIN AuthorsBooks
