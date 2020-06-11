@@ -1,4 +1,4 @@
-from database import database_funs as database
+from database import database_funcs as database
 
 
 class Author:
@@ -11,7 +11,7 @@ class Author:
         if not name:
             return None
         else:
-            row = database.extract_author(name)
+            row = database.get_author_by_name(name)
             if row:
                 return Author(*row)
             else:
