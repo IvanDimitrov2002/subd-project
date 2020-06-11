@@ -115,6 +115,20 @@ def get_books_by_auth_name(auth_name):
             print(e)
 
 
+def __get_book_id_by_name(book_name):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT Id
+                       FROM Books
+                       WHERE Name = %s;'''
+            res = conn.cursor().execute(query, (book_name, )).fetchone()
+            return res
+
+        except Error as e:
+            print(e)
+
+
 def delete_book_by_name(book_name):
     with DB() as conn:
         conn.connect(database="Library")
@@ -122,7 +136,7 @@ def delete_book_by_name(book_name):
             query = '''DELETE
                        FROM Books
                        WHERE Id = %s;'''
-            conn.cursor().execute(query, book_name)
+            conn.cursor().execute(query, __get_book_id_by_name(book_name))
             conn.commit()
 
         except Error as e:

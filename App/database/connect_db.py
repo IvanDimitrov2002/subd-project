@@ -6,8 +6,8 @@ class DB:
     def __enter__(self):
         try:
             self.conn = mysql.connector.connect(host='localhost',
-                                                user='kalata',
-                                                password='majna')
+                                                user='root',
+                                                password='root')
             if self.conn.is_connected():
                 print("Connection established... ")
                 return self.conn
