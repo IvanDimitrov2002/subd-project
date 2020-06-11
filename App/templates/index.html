@@ -17,18 +17,18 @@
             </nav>
        </header>
        <div class="main-content">
-            <form class="content-form" action="/books" method="GET">
+            <form class="content-form" action="/books" method="GET" onSubmit="return disableRadio()">
                 <div class="form-actions">
-                    <input class="form-input" type="text" value="" placeholder="Search by book name...">
+                    <input class="form-input" name="name" type="text" value="" placeholder="Search by book name...">
                     <button class="form-submit" type="submit">Search</button>
                 </div>
                 <div class="form-radio">
                     <span>
-                        <input type="radio" id="book" name="search" value="book" checked onChange="changeSearch()">
+                        <input class="radio" type="radio" id="book" name="search" value="book" checked onChange="changeSearch()">
                         <label for="book">Search by book</label>
                     </span>
                     <span>
-                        <input type="radio" id="author" name="search" value="author" onChange="changeSearch()">
+                        <input class="radio" type="radio" id="author" name="search" value="author" onChange="changeSearch()">
                         <label for="author">Search by author</label>  
                     </span>
                 </div>

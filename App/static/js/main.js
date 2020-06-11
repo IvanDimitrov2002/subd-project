@@ -10,3 +10,10 @@ const changeSearch = () => {
         searchForm.action = "/books"
     }
 }
+
+const disableRadio = () => {
+    const radios = document.querySelectorAll('.radio')
+    radios.forEach(radio => {
+        radio.setAttribute('disabled', 'disabled')
+    })
+}
