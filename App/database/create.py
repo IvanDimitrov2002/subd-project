@@ -28,14 +28,14 @@ def createDB():
                             (ID_b INT,
                             ID_auth INT,
                             FOREIGN KEY (ID_b) REFERENCES Books(ID),
-                            FOREIGN KEY (ID_auth) REFERENCES Authors(ID) );''')
+                            FOREIGN KEY (ID_auth) REFERENCES Authors(ID));''')
 
-        conn.cursor().execute('''CREATE INDEX Authors_name
-                              ON Authors (Name)''')
+        conn.cursor().execute('''CREATE INDEX authors_name ON Authors (Name);''')
 
-        conn.cursor().execute('''CREATE INDEX IF NOT EXISTS Books_name
-                              ON Books (Title)''')
+        conn.cursor().execute('''CREATE INDEX books_name ON Books (Title);''')
+
     except Error:
         print(Error)
+
     finally:
         conn.close()
