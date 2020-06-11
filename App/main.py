@@ -3,7 +3,7 @@ from flask import render_template
 from flask import url_for
 import database.create as database
 
-from books import Book
+from models.books import Book
 
 app = Flask(__name__)
 
