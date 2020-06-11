@@ -1,5 +1,5 @@
 from mysql.connector import Error
-from connect_db import DB
+from .connect_db import DB
 
 
 def add_book(title, genre, isbn, date):
