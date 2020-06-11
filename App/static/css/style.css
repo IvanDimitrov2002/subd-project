@@ -1,0 +1,134 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images-na.ssl-images-amazon.com/images/I/81zA7KxBmML._AC_SL1500_.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-around;
+    background-image: linear-gradient( rgba(0, 0, 0, .7), rgba(0, 0, 0, .7) );
+    height: 65px;
+    color: white;
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.main-header .header-title {
+    font-size: 27px;
+}
+
+.main-header .header-navbar {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.main-header .header-navbar > * {
+    padding: 10px 15px;
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    transition: .2s;
+}
+
+.main-header .header-navbar > *:hover {
+    font-size: 18px;
+}
+
+.main-content {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 265px);
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content .content-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-content .content-form .form-input {
+    padding: 10px 15px;
+    background-color: white;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid transparent;
+    transition: .2s;
+    font-size: 18px;
+}
+
+.main-content .content-form .form-input:hover {
+    border: 1px solid rgba(255, 204, 0, .7);
+}
+
+.main-content .content-form .form-submit {
+    padding: 13px 20px;
+    background-color: #ffcc00;
+    border: 0;
+    border-radius: 10px;
+    transition: .2s;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+
+.main-content .content-form .form-submit:hover {
+    background-color: #b38f00;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.main-content .content-form .form-radio {
+    color: white;
+    margin: 15px;
+}
+
+.main-content .content-form .form-radio > * {
+    padding: 10px;
+}
+
+.main-content .content-form .form-radio > * > * {
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+@media only screen and (max-width: 445px){
+    .main-header {
+        flex-direction: column;
+    }
+
+    .main-header > .header-title {
+        margin-top: 30px;
+    }
+}
+
+@media only screen and (max-width: 345px){
+    .main-content .content-form .form-actions {
+        text-align: center;
+    }
+
+    .main-content .content-form .form-actions .form-input {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+}

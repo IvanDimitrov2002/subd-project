@@ -119,15 +119,11 @@ def delete_book_by_name(book_name):
     with DB() as conn:
         conn.connect(database="Library")
         try:
-            query = '''DELETE 
-                       FROM Books 
+            query = '''DELETE
+                       FROM Books
                        WHERE Id = %s;'''
             conn.cursor().execute(query, book_name)
             conn.commit()
 
         except Error as e:
             print(e)
-
-    finally:
-        conn.close()
-
