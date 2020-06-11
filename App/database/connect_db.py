@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+from pdb import set_trace
 
 
 class DB:
@@ -9,7 +10,6 @@ class DB:
                                                 user='root',
                                                 password='root')
             if self.conn.is_connected():
-                print("Connection established... ")
                 return self.conn
 
         except Error as e:

@@ -1,13 +1,27 @@
 from database import database_funcs as database
+from database.connect_db import DB
+from mysql.connector import Error
 
 
 class Book:
     def __init__(self, id, isbn, genre, title, date):
         self.id = id
-        self.title = title
         self.isbn = isbn
-        self.date = date
         self.genre = genre
+        self.title = title
+        self.date = date
+
+    def add_book(self):
+        with DB() as conn:
+            conn.connect(database="Library")
+            try:
+                conn.cursor().execute('''
+                    INSERT INTO Books
+                    VALUES(NULL, %s, %s, %s, %s)
+                ''', (self.isbn, self.genre, self.title, self.date))
+
+            except Error as e:
+                print(e)
 
     @staticmethod
     def find_by_id(id):
