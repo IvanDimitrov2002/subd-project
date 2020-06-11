@@ -1,6 +1,6 @@
 from mysql.connector import Error
 
-import database.connect as database
+import connect as database
 
 # CREATE DB IF NOT EXISTS AND ONE TABLE FOR
 # Authors, ONE FOR BOOKS
@@ -22,7 +22,7 @@ def createDB():
                             ISBN VARCHAR(17),
                             Genre VARCHAR(256),
                             Title VARCHAR(256),
-                            PublishedDate DATE);''')
+                            Date DATE);''')
 
         conn.cursor().execute('''CREATE TABLE IF NOT EXISTS AuthorsBooks
                             (ID_b INT,
