@@ -7,15 +7,7 @@
         <title>Library</title>
     </head>
     <body>
-       <header class="main-header">
-           <h1 class="header-title">Library</h1>
-           <nav class="header-navbar">
-               <a href="/">Home</a>
-               <a href="/books">Books</a>
-               <a href="/authors">Authors</a>
-               <a href="/add_book">Add Book</a>
-            </nav>
-       </header>
+        {% include 'header.html' %}
        <div class="main-content">
             <form class="content-form" action="/books" method="GET" onSubmit="disableRadio()">
                 <div class="form-actions">

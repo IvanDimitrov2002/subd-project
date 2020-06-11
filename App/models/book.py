@@ -74,3 +74,7 @@ class Book:
             return [Book(*row) for row in rows]
         else:
             return None
+
+    @staticmethod
+    def delete_book_by_id(id):
+        return database.delete_book_by_id(id)

@@ -26,6 +26,8 @@ a {
     height: 65px;
     color: white;
     align-items: center;
+    position: sticky;
+    top: 0;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
@@ -51,7 +53,7 @@ a {
     font-size: 18px;
 }
 
-.main-content {
+.main-content, .book-content {
     display: flex;
     width: 100%;
     height: calc(100vh - 265px);
@@ -80,7 +82,8 @@ a {
     border: 1px solid rgba(255, 204, 0, .7);
 }
 
-.main-content .content-form .form-submit {
+.main-content .content-form .form-submit,
+.book-content .book .delete-button {
     padding: 13px 20px;
     background-color: #ffcc00;
     border: 0;
@@ -91,7 +94,8 @@ a {
     outline: none;
 }
 
-.main-content .content-form .form-submit:hover {
+.main-content .content-form .form-submit:hover,
+.book-content .book .delete-button:hover {
     background-color: #b38f00;
     color: white;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -110,6 +114,49 @@ a {
     outline: none;
     cursor: pointer;
     user-select: none;
+}
+
+.book-content {
+    flex-wrap: wrap;
+}
+
+.book-content .book {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, .85);
+    padding: 20px 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: .2s;
+    cursor: pointer;
+    margin: 15px;
+}
+
+.book-content .book .book-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.book-content .book .book-info {
+    list-style-type: none;
+}
+
+.book-content .book .book-info li {
+    margin: 10px 0;
+}
+
+.book-content .book .book-info li span {
+    font-weight: 600;
+}
+
+.book-content .book .delete-button {
+    background-color: #cc0000;
+    width: 100%;
+    color: white;
+}
+
+.book-content .book .delete-button:hover {
+    background-color: #b30000;
 }
 
 @media only screen and (max-width: 445px){
