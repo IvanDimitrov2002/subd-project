@@ -2,18 +2,26 @@ from database import database_funcs as database
 
 
 class Book:
-    def __init__(self, id, isbn, genre, title, date):
+    def __init__(self, id, isbn, genre, title, date, authors=None):
         self.id = id
         self.isbn = isbn
         self.genre = genre
         self.title = title
         self.date = date
+        self.authors = authors
 
     def add_book(self):
-        database.add_book(self.title, self.genre, self.isbn, self.date)
+        database.add_book(self.title,
+                          self.genre,
+                          self.isbn,
+                          self.date)
 
     def update_book(self):
-        database.update_book(self.id, self.title, self.genre, self.isbn, self.date)
+        database.update_book(self.id,
+                             self.title,
+                             self.genre,
+                             self.isbn,
+                             self.date)
 
     @staticmethod
     def find_by_id(id):
@@ -64,7 +72,7 @@ class Book:
         if not author:
             return None
         else:
-            rows = database.get_books_by_auth_name(author)
+            rows = database.get_books_by_auth_name(author.name)
             if rows:
                 return [Book(*row) for row in rows]
             else:

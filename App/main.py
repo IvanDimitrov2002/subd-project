@@ -12,7 +12,7 @@ def hello_world():
     return render_template('index.html')
 
 
-@app.route('/books', methods=['GET', 'POST', 'DELETE'])
+@app.route('/books', methods=['GET', 'POST'])
 def view_books():
     if request.method == 'GET':
         books = []
@@ -61,7 +61,7 @@ def view_books():
                 return render_template('books.html', books=book)
             else:
                 books = Book.get_all_books()
-                if(not books):
+                if not books:
                     return render_template('index.html')
                 return render_template('books.html', books=books)
 
@@ -75,16 +75,26 @@ def view_authros():
         return render_template('authors.html', authors=authors)
 
     if request.method == 'POST':
-        if request.form["target"] == 'delete':
-            if Author.delete_author_by_id(request.form["id"]):
-                books = Author.get_all_authors()
-                if(books is None):
+        form = request.form
+        if form["target"] == 'delete':
+            if Author.delete_author_by_id(form["id"]):
+                authors = Author.get_all_authors()
+                if(authors is None):
                     return render_template('index.html')
                 return render_template('authors.html', authors=authors)
 
-        if request.form["target"] == 'update':
-            # book = Book()
-            pass
+        if form["target"] == 'update':
+            auth = Author.find_by_id(form[id])
+            if auth:
+                auth.name = form['name']
+                return render_template('authors.html',
+                                       authors=auth)
+            else:
+                authors = Author.get_all_authors()
+                if not authors:
+                    return render_template('index.html')
+                return render_template('authors.html',
+                                       authors=authors)
 
 
 if __name__ == '__main__':
