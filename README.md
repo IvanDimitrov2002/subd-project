@@ -4,8 +4,8 @@ Basic front-end and back-end that showcase the use of SQL queries.
 
 ## Requiremenets
 
-`pip` to install the dependencies
-`python 3` to run the application
+- `pip` to install the dependencies
+- `python 3` to run the application
 
 ### Installation
 
