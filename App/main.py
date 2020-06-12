@@ -72,6 +72,7 @@ def view_authros():
         if request.form["target"] == 'update':
             pass
 
+
 if __name__ == '__main__':
     database.createDB()
 
