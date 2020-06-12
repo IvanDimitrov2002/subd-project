@@ -15,6 +15,23 @@ def add_book(title, genre, isbn, date):
             print(e)
 
 
+def update_book(id, title, genre, isbn, date):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''UPDATE Books
+                       SET Title = %s,
+                           ISBN  = %s,
+                           Genre = %s,
+                           Date  = %s
+                       WHERE Id = %s;'''
+            conn.cursor().execute(query, (title, isbn, genre, date, id))
+
+        except Error as e:
+            conn.rollback()
+            print(e)
+
+
 def add_author(author_name):
     with DB() as conn:
         conn.connect(database="Library")

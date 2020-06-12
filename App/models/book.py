@@ -12,6 +12,9 @@ class Book:
     def add_book(self):
         database.add_book(self.title, self.genre, self.isbn, self.date)
 
+    def update_book(self):
+        database.update_book(self.id, self.title, self.genre, self.isbn, self.date)
+
     @staticmethod
     def find_by_id(id):
         if not id:

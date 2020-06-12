@@ -43,15 +43,27 @@ def view_books():
             return render_template('books.html', books=books)
 
     if request.method == 'POST':
-        if request.form["target"] == 'delete':
-            if Book.delete_book_by_id(request.form["id"]):
+        form = request.form
+        if form["target"] == 'delete':
+            if Book.delete_book_by_id(form["id"]):
                 books = Book.get_all_books()
                 if(books is None):
                     return render_template('index.html')
                 return render_template('books.html', books=books)
 
-        if request.form["target"] == 'update':
-            pass
+        if form["target"] == 'update':
+            book = Book.find_by_id(form['id'])
+            if book:
+                book.date = form['date']
+                book.genre = form['genre']
+                book.title = form['title']
+                book.isbn = form['isbn']
+                return render_template('books.html', books=book)
+            else:
+                books = Book.get_all_books()
+                if(not books):
+                    return render_template('index.html')
+                return render_template('books.html', books=books)
 
 
 @app.route('/authors', methods=['GET', 'POST', 'DELETE'])
@@ -71,6 +83,7 @@ def view_authros():
                 return render_template('authors.html', authors=authors)
 
         if request.form["target"] == 'update':
+            # book = Book()
             pass
 
 
