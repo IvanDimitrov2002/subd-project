@@ -12,7 +12,7 @@ def hello_world():
     return render_template('index.html')
 
 
-@app.route('/books', methods=['GET', 'POST', 'DELETE'])
+@app.route('/books', methods=['GET', 'POST'])
 def view_books():
     if request.method == 'GET':
         books = []
@@ -54,7 +54,7 @@ def view_books():
             pass
 
 
-@app.route('/authors', methods=['GET', 'POST', 'DELETE'])
+@app.route('/authors', methods=['GET', 'POST'])
 def view_authros():
     if request.method == 'GET':
         authors = Author.get_all_authors()
