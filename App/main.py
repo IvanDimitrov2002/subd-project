@@ -14,60 +14,56 @@ def hello_world():
 
 @app.route('/books', methods=['GET', 'POST'])
 def view_books():
+    books = None
     if request.method == 'GET':
-        books = []
         req = request.args
 
-        if req.get('title') is not None and req.get('title') != "":
+        if not req.get('title') and req.get('title') != "":
             books = Book.find_by_substring(req.get('title'))
-            if books:
-                return render_template('books.html', books=books)
 
-        elif req.get('genre') is not None and req.get('genre') != "":
+        elif not req.get('genre') and req.get('genre') != "":
             books = Book.find_by_genre(req.get('genre'))
-            if books:
-                return render_template('books.html', books=books)
 
-        elif req.get('author') is not None and req.get('author') != "":
+        elif not req.get('author') and req.get('author') != "":
             books = Book.find_by_author(req.get('author'))
-            if books:
-                return render_template('books.html', books=books)
 
-        books = Book.get_all_books()
-        if books:
-            return render_template('books.html', books=books)
-        return render_template('index.html')
-    
     if request.method == 'POST':
         if request.form["target"] == 'delete':
-            if Book.delete_book_by_id(request.form["id"]):
-                books = Book.get_all_books()
-                if(books is None):
-                    return render_template('index.html')
-                return render_template('books.html', books=books)
+            Book.delete_book_by_id(request.form["id"])
 
-        if request.form["target"] == 'update':
-            pass
+    if not books:
+        books = Book.get_all_books()
 
+    if books:
+        return render_template('books.html', books=books)
+
+    return render_template('index.html')
 
 @app.route('/authors', methods=['GET', 'POST'])
 def view_authros():
+    authors = None
     if request.method == 'GET':
+        req = request.args
+
+        if not req.get('name') and req.get('name') != "":
+            authors = Book.find_by_author(req.get('name'))
+
         authors = Author.get_all_authors()
-        if(authors is None):
-            return render_template('index.html')
-        return render_template('authors.html', authors=authors)
+        if(authors):
+            return render_template('authors.html', authors=authors)
 
     if request.method == 'POST':
-        if request.form["target"] == 'delete':
-            if Author.delete_author_by_id(request.form["id"]):
-                books = Author.get_all_authors()
-                if(books is None):
-                    return render_template('index.html')
-                return render_template('authors.html', authors=authors)
+        form = request.form
+        if form["target"] == 'delete':
+            if Author.delete_author_by_id(form["id"]):
+                authors = Author.get_all_authors()
+                if(authors):
+                    return render_template('authors.html', authors=authors)
 
         if request.form["target"] == 'update':
-            pass
+            
+
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
