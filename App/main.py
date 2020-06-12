@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for, request
 import database.create as database
 
-from models.book import Book, Author
+from models.book import Book
+from models.author import Author
 
 app = Flask(__name__)
 
