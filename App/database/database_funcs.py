@@ -2,17 +2,78 @@ from mysql.connector import Error
 from database.connect_db import DB
 
 
-def add_book(title, genre, isbn, date):
+def get_book_by_title(title):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Books
+                       WHERE Title = %s;'''
+            res = conn.cursor()
+            res.execute(query, (title, ))
+            return res.fetchone()
+
+        except Error as e:
+            print(e)
+
+
+def get_author_by_name(auth_name):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Authors
+                       WHERE Name = %s;'''
+            res = conn.cursor()
+            res.execute(query, (auth_name, ))
+            return res.fetchone()
+
+        except Error as e:
+            print(e)
+
+
+def add_book(isbn, genre, title, date, authors):
     with DB() as conn:
         conn.connect(database="Library")
         try:
             query = '''INSERT INTO Books
                        VALUES(NULL, %s, %s, %s, %s);'''
-            conn.cursor().execute(query, (title, genre, isbn, date))
+            conn.cursor().execute(query, (isbn, genre, title, date))
+
+            query = '''INSERT INTO Authors
+                       VALUES(NULL, %s);'''
+            for i in authors:
+                row = get_author_by_name(i)
+                if not row:
+                    conn.cursor().execute(query, (i, ))
+
+            query = '''SELECT Id
+                       FROM Books
+                       WHERE Title = %s;'''
+            res = conn.cursor()
+            res.execute(query, (title, ))
+            id_b = res.fetchone()
+            print(title)
+
+            query_id_auth = '''SELECT Id
+                       FROM Authors
+                       WHERE Name = %s;'''
+
+            for i in authors:
+                res = conn.cursor()
+                res.execute(query_id_auth, (i, ))
+
+                id_auth = res.fetchone()[0]
+                query = '''INSERT INTO AuthorsBooks
+                        VALUES(%s, %s);'''
+                conn.cursor().execute(query, (id_b, id_auth))
+            conn.commit()
 
         except Error as e:
             conn.rollback()
             print(e)
+        finally:
+            res.close()
 
 
 def update_book(id, title, genre, isbn, date):
@@ -72,21 +133,6 @@ def link_author_with_book(auth_id, book_id):
             print(e)
 
 
-def get_author_by_name(auth_name):
-    with DB() as conn:
-        conn.connect(database="Library")
-        try:
-            query = '''SELECT *
-                       FROM Authors
-                       WHERE Name = %s;'''
-            res = conn.cursor()
-            res.execute(query, (auth_name, ))
-            return res.fetchone()
-
-        except Error as e:
-            print(e)
-
-
 def get_author_by_id(auth_id):
     with DB() as conn:
         conn.connect(database="Library")
@@ -139,21 +185,6 @@ def get_book_by_id(book_id):
                        WHERE Id = %s;'''
             res = conn.cursor()
             res.execute(query, (book_id, ))
-            return res.fetchone()
-
-        except Error as e:
-            print(e)
-
-
-def get_book_by_title(title):
-    with DB() as conn:
-        conn.connect(database="Library")
-        try:
-            query = '''SELECT *
-                       FROM Books
-                       WHERE Title = %s;'''
-            res = conn.cursor()
-            res.execute(query, (title, ))
             return res.fetchone()
 
         except Error as e:

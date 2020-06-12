@@ -30,8 +30,8 @@ def createDB():
                 CREATE TABLE IF NOT EXISTS AuthorsBooks(
                     Book_id INT,
                     Auth_id INT,
-                    FOREIGN KEY (Book_id) REFERENCES Books(Id),
-                    FOREIGN KEY (Auth_id) REFERENCES Authors(Id)
+                    FOREIGN KEY (Book_id) REFERENCES Books(Id) ON DELETE CASCADE,
+                    FOREIGN KEY (Auth_id) REFERENCES Authors(Id) ON DELETE CASCADE
                 );
             ''')
 

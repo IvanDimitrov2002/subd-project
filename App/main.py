@@ -5,12 +5,7 @@ from flask import redirect
 from flask import render_template
 
 import database.create as database
-import database.database_funcs as db_funcs
-import sys
-
-# if "Book" not in sys.modules:
 from models.book import Book
-# if "Author" not in sys.modules:
 from models.author import Author
 
 app = Flask(__name__)
@@ -27,13 +22,13 @@ def view_books():
     if request.method == 'GET':
         req = request.args
 
-        if not req.get('title') and req.get('title') != "":
+        if req.get('title') and req.get('title') != "":
             books = Book.find_by_substring(req.get('title'))
 
-        elif not req.get('genre') and req.get('genre') != "":
+        elif req.get('genre') and req.get('genre') != "":
             books = Book.find_by_genre(req.get('genre'))
 
-        elif not req.get('author') and req.get('author') != "":
+        elif req.get('author') and req.get('author') != "":
             books = Book.find_by_author(req.get('author'))
 
     if request.method == 'POST':
@@ -87,10 +82,14 @@ def view_authros():
 
         if req.get('name') and req.get('name') != "":
             authors = Author.find_by_name(req.get('name'))
+            return render_template('authors.html', authors=[authors])
 
-        authors = Author.get_all_authors()
+        if not authors:
+            authors = Author.get_all_authors()
         if authors:
             return render_template('authors.html', authors=authors)
+
+        return render_template('index.html')
 
     if request.method == 'POST':
         form = request.form
@@ -138,22 +137,16 @@ def add_book():
         return render_template('add_book.html')
 
     elif request.method == 'POST':
-        authors = [author.strip() for author in request.form['book_authors'].split(',')]
+        authors = [author.strip() for author in request.form['book_authors']
+                   .split(',')]
         title = request.form['book_title']
         genre = request.form['book_genre']
         isbn = request.form['book_isbn']
         date = request.form['book_date']
         if authors is not None and title != '' and genre != '' and isbn != '' \
            and date != '':
-            book = Book(None, title, genre, isbn, date, None)
-            book.add_book()
-            book = Book.find_by_title(title)
-            for i in authors:
-                author = Author.find_by_name(i)
-                if not author:
-                    author = Author(None, i)
-                    author.add_author() 
-                db_funcs.link_author_with_book(author.id, book.id)
+            book = Book(None, isbn, genre, title, date)
+            book.add_book(authors)
             return redirect(url_for('books'))
 
         elif title == "":
@@ -176,8 +169,10 @@ def add_book():
 if __name__ == '__main__':
     database.createDB()
 
-    # books = [Book(None, "12319123", "Adventure", "Lady Midnight", "2020-03-13"),
-    #          Book(None, "12314222", "Adventure", "Lord of Shadows", "2018-03-13"),
+    # books = [Book(None, "12319123", "Adventure", "Lady Midnight",
+    # "2020-03-13"),
+    #          Book(None, "12314222", "Adventure", "Lord of Shadows",
+    # "2018-03-13"),
     #          Book(None, "54569123", "Info", "How to program", "2016-03-09"),
     #          Book(None, "12319123", "Info", "Giving you them", "2021-05-13")]
 
