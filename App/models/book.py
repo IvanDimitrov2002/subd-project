@@ -2,7 +2,7 @@ from database import database_funcs as database
 
 
 class Book:
-    def __init__(self, id, isbn, genre, title, date, authors=None):
+    def __init__(self, id, isbn, genre, title, date, authors=[]):
         self.id = id
         self.isbn = isbn
         self.genre = genre
