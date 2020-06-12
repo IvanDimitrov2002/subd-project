@@ -10,6 +10,10 @@ const changeSearch = () => {
         searchInput.placeholder = "Search by book name..."
         searchInput.name = "title"
         searchForm.action = "/books"
+    } else if(event.target.value === "genre"){
+        searchInput.placeholder = "Search by book genre..."
+        searchInput.name = "genre"
+        searchForm.action = "/books"
     }
 }
 
