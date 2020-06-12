@@ -1,4 +1,5 @@
 from database import database_funcs as database
+from .book import Book
 
 
 class Author:
@@ -12,6 +13,14 @@ class Author:
 
     def update_author(self):
         database.update_book(self.id, self.name)
+
+    def set_book_authors(self):
+        books = database.get_author_books(self.id)
+        if books:
+            self.books = [Book(*book) for book in books]
+            return True
+
+        return False
 
     @staticmethod
     def find_by_name(name):

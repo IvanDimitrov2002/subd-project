@@ -79,8 +79,9 @@ def get_author_by_name(auth_name):
             query = '''SELECT *
                        FROM Authors
                        WHERE Name = %s;'''
-            res = conn.cursor().execute(query, (auth_name, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (auth_name, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)
@@ -93,8 +94,9 @@ def get_author_by_id(auth_id):
             query = '''SELECT *
                        FROM Authors
                        WHERE Id = %s;'''
-            res = conn.cursor().execute(query, (auth_id, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (auth_id, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)
@@ -135,8 +137,9 @@ def get_book_by_id(book_id):
             query = '''SELECT *
                        FROM Books
                        WHERE Id = %s;'''
-            res = conn.cursor().execute(query, (book_id, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (book_id, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)
@@ -149,8 +152,9 @@ def get_book_by_title(title):
             query = '''SELECT *
                        FROM Books
                        WHERE Title = %s;'''
-            res = conn.cursor().execute(query, (title, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (title, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)
@@ -178,8 +182,9 @@ def get_books_by_genre(genre):
             query = '''SELECT *
                        FROM Books
                        WHERE Genre = %s;'''
-            res = conn.cursor().execute(query, (genre, )).fetchall()
-            return res
+            res = conn.cursor()
+            res.execute(query, (genre, ))
+            return res.fetchall()
 
         except Error as e:
             print(e)
@@ -192,32 +197,73 @@ def get_books_by_auth_name(auth_name):
             query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
                        FROM Authors
                        INNER JOIN AuthorsBooks
-                       ON Authors.Id = AuthorsBooks.Id_auth
+                       ON Authors.Id = AuthorsBooks.Auth_id
                        INNER JOIN Books
-                       ON Books.Id = AuthorsBooks.Id_b
+                       ON Books.Id = AuthorsBooks.Book_id
                        WHERE Name = %s;'''
-            res = conn.cursor().execute(query, (auth_name, )).fetchall()
-            return res
+            res = conn.cursor()
+            res.execute(query, (auth_name, ))
+            return res.fetchall()
 
         except Error as e:
             print(e)
 
-    def get_books_by_auth_id(auth_id):
-        with DB() as conn:
-            conn.connect(database="Library")
-            try:
-                query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
-                        FROM Authors
-                        INNER JOIN AuthorsBooks
-                        ON Authors.Id = AuthorsBooks.Id_auth
-                        INNER JOIN Books
-                        ON Books.Id = AuthorsBooks.Id_b
-                        WHERE Id = %s;'''
-                res = conn.cursor().execute(query, (auth_id, )).fetchall()
-                return res
 
-            except Error as e:
-                print(e)
+def get_books_by_auth_id(auth_id):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
+                       FROM Authors
+                       INNER JOIN AuthorsBooks
+                       ON Authors.Id = AuthorsBooks.Auth_id
+                       INNER JOIN Books
+                       ON Books.Id = AuthorsBooks.Book_id
+                       WHERE Author.Id = %s;'''
+            res = conn.cursor()
+            res.execute(query, (auth_id, ))
+            return res.fetchall()
+
+        except Error as e:
+            print(e)
+
+
+def get_book_authors(book_id):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT Authors.Id, Authors.Name
+                       FROM Authors
+                       INNER JOIN AuthorsBooks
+                       ON Authors.Id = AuthorsBooks.Auth_id
+                       INNER JOIN Books
+                       ON Books.Id = AuthorsBooks.Book_id
+                       WHERE Book.Id = %s;'''
+            res = conn.cursor()
+            res.execute(query, (book_id, ))
+            return res.fetchall()
+
+        except Error as e:
+            print(e)
+
+
+def get_author_books(author_id):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
+                       FROM Authors
+                       INNER JOIN AuthorsBooks
+                       ON Authors.Id = AuthorsBooks.Auth_id
+                       INNER JOIN Books
+                       ON Books.Id = AuthorsBooks.Book_id
+                       WHERE Author.Id = %s;'''
+            res = conn.cursor()
+            res.execute(query, (author_id, ))
+            return res.fetchall()
+
+        except Error as e:
+            print(e)
 
 
 def __get_book_id_by_title(book_title):
