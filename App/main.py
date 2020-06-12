@@ -92,6 +92,31 @@ def view_authros():
     return render_template('index.html')
 
 
+@app.route('/author', methods=['GET', 'POST'])
+def update_author():
+    authors = None
+    author = None
+    if request.method == 'GET':
+        author = Author.find_by_id(request.args.get('id'))
+
+    if request.method == 'POST':
+        form = request.form
+        author = Author.find_by_id(form('id'))
+
+        if author:
+            author.name = form['name']
+            author.update_author()
+
+    if author:
+        return render_template('authors.html', authors=[author])
+
+    authors = Book.get_all_authors()
+    if authors:
+        return render_template('authors.html', authors=authors)
+
+    return render_template('index.html')
+
+
 if __name__ == '__main__':
     database.createDB()
 
