@@ -41,6 +41,8 @@ def view_books():
         books = Book.get_all_books()
 
     if books:
+        for book in books:
+            book.set_book_authors()
         return render_template('books.html', books=books)
 
     return render_template('index.html')
@@ -114,10 +116,14 @@ def update_author():
             author.update_author()
 
     if author:
+        author.set_author_books()
         return render_template('authors.html', authors=[author])
 
     authors = Book.get_all_authors()
     if authors:
+        for author in authors:
+            author.set_author_books()
+
         return render_template('authors.html', authors=authors)
 
     return render_template('index.html')
