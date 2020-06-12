@@ -1,7 +1,7 @@
 from database import database_funcs as database
 import sys
-if "Author" not in sys.modules:
-    from models.author import Author
+#if "Author" not in sys.modules:
+#    from models.author import Author
 
 
 class Book:
@@ -13,11 +13,12 @@ class Book:
         self.date = date
         self.authors = authors
 
-    def add_book(self):
+    def add_book(self, authors):
         database.add_book(self.title,
                           self.genre,
                           self.isbn,
-                          self.date)
+                          self.date,
+                          authors)
 
     def update_book(self):
         database.update_book(self.id,
