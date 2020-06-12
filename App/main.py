@@ -6,9 +6,13 @@ from flask import render_template
 
 import database.create as database
 import database.database_funcs as db_funcs
+import sys
 
-from models.book import Book
-from models.author import Author
+#todo fix imports
+if "Book" not in sys.modules:
+    from models.book import Book
+if "Author" not in sys.modules:
+    from models.author import Author
 
 app = Flask(__name__)
 

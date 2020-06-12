@@ -1,5 +1,7 @@
 from database import database_funcs as database
-from .author import Author
+import sys
+if "Author" not in sys.modules:
+    from models.author import Author
 
 
 class Book:
