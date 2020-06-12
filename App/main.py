@@ -39,6 +39,35 @@ def view_books():
 
     return render_template('index.html')
 
+
+@app.route('/book', methods=['GET', 'POST'])
+def update_book():
+    books = None
+    book = None
+    if request.method == 'GET':
+        book = Book.find_by_id(request.args.get('id'))
+
+    if request.method == 'POST':
+        form = request.form
+        book = Book.find_by_id(form('id'))
+
+        if book:
+            book.date = form['date']
+            book.genre = form['genre']
+            book.isbn = form['isbn']
+            book.title = form['title']
+            book.update_book()
+
+    if book:
+        return render_template('books.html', books=[book])
+
+    books = Book.get_all_books()
+    if books:
+        return render_template('books.html', books=books)
+
+    return render_template('index.html')
+
+
 @app.route('/authors', methods=['GET', 'POST'])
 def view_authros():
     authors = None
