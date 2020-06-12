@@ -2,12 +2,16 @@ from database import database_funcs as database
 
 
 class Author:
-    def __init__(self, id, name):
+    def __init__(self, id, name, books=None):
         self.name = name
         self.id = id
+        self.books = books
 
     def add_author(self):
         database.add_author(self.name)
+
+    def update_author(self):
+        database.update_book(self.id, self.name)
 
     @staticmethod
     def find_by_name(name):

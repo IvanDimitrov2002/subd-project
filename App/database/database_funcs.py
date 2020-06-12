@@ -45,6 +45,20 @@ def add_author(author_name):
             print(e)
 
 
+def update_author(id, title):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''UPDATE Books
+                       SET Name = %s
+                       WHERE Id = %s;'''
+            conn.cursor().execute(query, (title, id))
+
+        except Error as e:
+            conn.rollback()
+            print(e)
+
+
 def link_author_with_book(auth_id, book_id):
     with DB() as conn:
         conn.connect(database="Library")
