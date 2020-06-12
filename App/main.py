@@ -89,9 +89,6 @@ def view_authros():
                 if(authors):
                     return render_template('authors.html', authors=authors)
 
-        if request.form["target"] == 'update':
-            
-
     return render_template('index.html')
 
 
