@@ -188,6 +188,23 @@ def get_books_by_auth_name(auth_name):
         except Error as e:
             print(e)
 
+    def get_books_by_auth_id(auth_id):
+        with DB() as conn:
+            conn.connect(database="Library")
+            try:
+                query = '''SELECT Books.Id, Books.ISBN, Books.Genre, Books.Title, Books.Date
+                        FROM Authors
+                        INNER JOIN AuthorsBooks
+                        ON Authors.Id = AuthorsBooks.Id_auth
+                        INNER JOIN Books
+                        ON Books.Id = AuthorsBooks.Id_b
+                        WHERE Id = %s;'''
+                res = conn.cursor().execute(query, (auth_id, )).fetchall()
+                return res
+
+            except Error as e:
+                print(e)
+
 
 def __get_book_id_by_title(book_title):
     with DB() as conn:
