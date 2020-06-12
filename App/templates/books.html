@@ -16,11 +16,7 @@
                     <li><span>Genre:</span> {{ book.genre }}</li>
                     <li><span>Date:</span> {{ book.date }}</li>
                     <li><span>ISBN:</span> {{ book.isbn }}</li>
-                    <li><span>Authors:</span> 
-                        {% for author in book.authors %}
-                            {{ authors.name }}
-                        {% endfor %}
-                    </li>
+                    
                 </ul>
                 <form action="/books" method="POST">
                     <input type="hidden" name="id" value="{{ book.id }}">

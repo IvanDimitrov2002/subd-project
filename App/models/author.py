@@ -33,7 +33,7 @@ class Author:
 
     @staticmethod
     def get_all_authors():
-        rows = database.get_all_books()
+        rows = database.get_all_authors()
         if rows:
             return [Author(*row) for row in rows]
         else:

@@ -235,4 +235,16 @@ def delete_book_by_id(book_id):
 
 
 def delete_author_by_id(author_id):
-    pass
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''DELETE
+                       FROM Authors
+                       WHERE Id = %s;'''
+            conn.cursor().execute(query, (author_id, ))
+            conn.commit()
+            return True
+
+        except Error as e:
+            conn.rollback()
+            print(e)

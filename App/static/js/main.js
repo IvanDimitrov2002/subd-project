@@ -4,9 +4,11 @@ const changeSearch = () => {
 
     if(event.target.value === "author"){
         searchInput.placeholder = "Search by author name..."
+        searchInput.name = "name"
         searchForm.action = "/authors"
     } else if(event.target.value === "book"){
         searchInput.placeholder = "Search by book name..."
+        searchInput.name = "title"
         searchForm.action = "/books"
     }
 }
