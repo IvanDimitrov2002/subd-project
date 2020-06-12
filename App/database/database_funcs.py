@@ -94,9 +94,31 @@ def update_book(id, title, genre, isbn, date, authors):
                 if not row:
                     conn.cursor().execute(query, (i, ))
 
+            query = '''DELETE FROM AuthorsBooks WHERE Book_id
+            = %s'''
+            conn.cursor().execute(query, (id, ))
+
+            query_id_auth = '''SELECT Id
+                       FROM Authors
+                       WHERE Name = %s;'''
+
+            for i in authors:
+                res = conn.cursor()
+                res.execute(query_id_auth, (i, ))
+
+                id_auth = res.fetchone()[0]
+                query = '''INSERT INTO AuthorsBooks
+                        VALUES(%s, %s);'''
+                conn.cursor().execute(query, (id, id_auth))
+
+            conn.commit()
+
         except Error as e:
             conn.rollback()
             print(e)
+
+        finally:
+            res.close()
 
 
 def add_author(author_name):

@@ -58,6 +58,8 @@ def update_book():
         authors = book.get_book_authors()
         if(authors):
             book.authors = ','.join([author[1] for author in authors])
+        if book:
+            return render_template('update_book.html', book=book)
 
     if request.method == 'POST':
         form = request.form
@@ -68,12 +70,11 @@ def update_book():
             book.genre = form['genre']
             book.isbn = form['isbn']
             book.title = form['title']
-            book.authors = [author.strip() for author in request.form['authors']
-                   .split(',')]
+            book.authors = [author.strip() for author in
+                            request.form['authors'].split(',')]
             book.update_book()
-
-    if book:
-        return render_template('update_book.html', book=book)
+        if book:
+            return render_template('books.html', books=[book])
 
     books = Book.get_all_books()
     if books:
