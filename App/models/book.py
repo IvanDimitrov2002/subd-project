@@ -1,5 +1,5 @@
 from database import database_funcs as database
-from models.author import Author
+
 
 class Book:
     def __init__(self, id, isbn, genre, title, date, authors=None):
@@ -24,13 +24,12 @@ class Book:
                              self.isbn,
                              self.date)
 
-    def set_book_authors(self):
+    def get_book_authors(self):
         authors = database.get_book_authors(self.id)
         if authors:
-            self.authors = [Author(*author) for author in authors]
-            return True
+            return authors
 
-        return False
+        return None
 
     @staticmethod
     def find_by_id(id):

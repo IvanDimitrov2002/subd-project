@@ -40,7 +40,9 @@ def view_books():
 
     if books:
         for book in books:
-            book.set_book_authors()
+            authors = book.get_book_authors()
+            for author in authors:
+                book.authors.append(author.name)
         return render_template('books.html', books=books)
 
     return render_template('index.html')
