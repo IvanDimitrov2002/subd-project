@@ -4,26 +4,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>Books</title>
+        <title>Authors</title>
     </head>
     <body>
         {% include 'header.html' %}
         <div class="book-content">
-            {% for book in books %}
+            {% for author in authors %}
             <div class="book">
-                <h3 class="book-title">{{ book.title }}</h3>
+                <h3 class="book-title">{{ author.name }}</h3>
                 <ul class="book-info">
-                    <li><span>Genre:</span> {{ book.genre }}</li>
-                    <li><span>Date:</span> {{ book.date }}</li>
-                    <li><span>ISBN:</span> {{ book.isbn }}</li>
-                    <li><span>Authors:</span> 
-                        {% for author in book.authors %}
-                            {{ authors.name }}
+                    <li><span>Books:</span> 
+                        {% for book in author.books %}
+                            {{ book.genre }}
                         {% endfor %}
                     </li>
                 </ul>
-                <form action="/books" method="POST">
-                    <input type="hidden" name="id" value="{{ book.id }}">
+                <form action="/authors" method="POST">
+                    <input type="hidden" name="id" value="{{ author.id }}">
                     <input type="hidden" name="target" value="delete">
                     <button type="submit" class="delete-button">Delete</button>
                 </form>
