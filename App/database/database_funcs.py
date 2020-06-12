@@ -75,7 +75,7 @@ def add_book(isbn, genre, title, date, authors):
             res.close()
 
 
-def update_book(id, title, genre, isbn, date):
+def update_book(id, title, genre, isbn, date, authors):
     with DB() as conn:
         conn.connect(database="Library")
         try:
@@ -86,6 +86,13 @@ def update_book(id, title, genre, isbn, date):
                            Date  = %s
                        WHERE Id = %s;'''
             conn.cursor().execute(query, (title, isbn, genre, date, id))
+
+            query = '''INSERT INTO Authors
+                       VALUES(NULL, %s);'''
+            for i in authors:
+                row = get_author_by_name(i)
+                if not row:
+                    conn.cursor().execute(query, (i, ))
 
         except Error as e:
             conn.rollback()

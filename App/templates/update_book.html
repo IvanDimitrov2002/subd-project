@@ -8,23 +8,24 @@
     </head>
     <body>
         {% include 'header.html' %}
-        <div class="book-content">
-            {% for book in books %}
-            <div class="book">
-                <h3 class="book-title">{{ book.title }}</h3>
-                <ul class="book-info">
-                    <li><span>Genre:</span> <input type="text" value="{{ book.genre }}"></li>
-                    <li><span>Date:</span> <input type="text" value="{{ book.date }}"></li>
-                    <li><span>ISBN:</span> <input type="text" value="{{ book.isbn }}"></li>
-                    
-                </ul>
-                <form action="/book" method="POST">
-                    <input type="hidden" name="id" value="{{ book.id }}">
-                    <button type="submit" class="update-button">Update</button>
-                </form>
+        <form action="/book" method="POST">
+            <div class="book-content">
+                <div class="book">
+                    <strong>Title:</strong>
+                    <h3 class="book-title"><input name="title" type="text" value="{{ book.title }}" placeholder="Book title"></h3>
+                    <ul class="book-info">
+                        <li><span>Genre:</span> <input name="genre" type="text" value="{{ book.genre }}" placeholder="Genre"></li>
+                        <li><span>Date:</span> <input name="date" type="text" value="{{ book.date }}" placeholder="Date"></li>
+                        <li><span>ISBN:</span> <input name="isbn" type="text" value="{{ book.isbn }}" placeholder="ISBN"></li>
+                        <li><span>Authors:</span>
+                            <input name="authors" type="text" value="{{ book.authors }}">
+                        </li>
+                    </ul>
+                        <input type="hidden" name="id" value="{{ book.id }}">
+                        <button type="submit" class="update-button">Update</button>
+                </div>
             </div>
-            {% endfor %}
-        </div>
+        </form>
         <script async defer src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>

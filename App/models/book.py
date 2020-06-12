@@ -22,7 +22,8 @@ class Book:
                              self.title,
                              self.genre,
                              self.isbn,
-                             self.date)
+                             self.date,
+                             self.authors)
 
     def get_book_authors(self):
         authors = database.get_book_authors(self.id)

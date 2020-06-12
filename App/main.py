@@ -52,22 +52,28 @@ def view_books():
 def update_book():
     books = None
     book = None
+
     if request.method == 'GET':
         book = Book.find_by_id(request.args.get('id'))
+        authors = book.get_book_authors()
+        if(authors):
+            book.authors = ','.join([author[1] for author in authors])
 
     if request.method == 'POST':
         form = request.form
-        book = Book.find_by_id(form('id'))
-
+        book = Book.find_by_id(form['id'])
+        print(form)
         if book:
             book.date = form['date']
             book.genre = form['genre']
             book.isbn = form['isbn']
             book.title = form['title']
+            book.authors = [author.strip() for author in request.form['authors']
+                   .split(',')]
             book.update_book()
 
     if book:
-        return render_template('books.html', books=[book])
+        return render_template('update_book.html', book=book)
 
     books = Book.get_all_books()
     if books:
