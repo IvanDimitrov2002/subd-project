@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Book</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="book-content">
+            {% for book in books %}
+            <div class="book">
+                <h3 class="book-title">{{ book.title }}</h3>
+                <ul class="book-info">
+                    <li><span>Genre:</span> <input type="text" value="{{ book.genre }}"></li>
+                    <li><span>Date:</span> <input type="text" value="{{ book.date }}"></li>
+                    <li><span>ISBN:</span> <input type="text" value="{{ book.isbn }}"></li>
+                    
+                </ul>
+                <form action="/book" method="POST">
+                    <input type="hidden" name="id" value="{{ book.id }}">
+                    <button type="submit" class="update-button">Update</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        <script async defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </body>
+</html>

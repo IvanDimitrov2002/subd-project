@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Book</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <form action="/add_book" method="POST">
+        <div class="book-content">
+            <div class="book">
+                <h3 class="book-title"><input name="book_title" type="text" value="" placeholder="Book title"></h3>
+                <ul class="book-info">
+                    <li><span>Genre:</span> <input name="book_genre" type="text" value="" placeholder="Genre"></li>
+                    <li><span>Date:</span> <input name="book_date" type="date" value="" placeholder="Date"></li>
+                    <li><span>ISBN:</span> <input name="book_isbn" type="text" value="" placeholder="ISBN"></li>
+                    <li><span>Authors:</span> <input name="book_authors" type="text" value="" placeholder="Authors"></li>
+                </ul>
+                    <button type="submit" class="update-button">Add book</button>
+                </div>
+            </div>
+        </form>
+        <script async defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </body>
+</html>

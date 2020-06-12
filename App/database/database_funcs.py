@@ -79,8 +79,9 @@ def get_author_by_name(auth_name):
             query = '''SELECT *
                        FROM Authors
                        WHERE Name = %s;'''
-            res = conn.cursor().execute(query, (auth_name, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (auth_name, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)
@@ -149,8 +150,9 @@ def get_book_by_title(title):
             query = '''SELECT *
                        FROM Books
                        WHERE Title = %s;'''
-            res = conn.cursor().execute(query, (title, )).fetchone()
-            return res
+            res = conn.cursor()
+            res.execute(query, (title, ))
+            return res.fetchone()
 
         except Error as e:
             print(e)

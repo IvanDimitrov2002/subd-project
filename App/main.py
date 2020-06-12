@@ -80,11 +80,11 @@ def view_authros():
     if request.method == 'GET':
         req = request.args
 
-        if not req.get('name') and req.get('name') != "":
-            authors = Book.find_by_author(req.get('name'))
+        if req.get('name') and req.get('name') != "":
+            authors = Author.find_by_name(req.get('name'))
 
         authors = Author.get_all_authors()
-        if(authors):
+        if authors:
             return render_template('authors.html', authors=authors)
 
     if request.method == 'POST':
@@ -129,7 +129,7 @@ def add_book():
         return render_template('add_book.html')
 
     elif request.method == 'POST':
-        authors = request.form['book_authors'].split(", ").strip()
+        authors = [author.strip() for author in request.form['book_authors'].split(',')]
         title = request.form['book_title']
         genre = request.form['book_genre']
         isbn = request.form['book_isbn']
@@ -138,11 +138,12 @@ def add_book():
            and date != '':
             book = Book(None, title, genre, isbn, date, None)
             book.add_book()
-            book = Book.find_by_name(title)
+            book = Book.find_by_title(title)
             for i in authors:
                 author = Author.find_by_name(i)
                 if not author:
-                    author.add_author()
+                    author = Author(None, i)
+                    author.add_author() 
                 db_funcs.link_author_with_book(author.id, book.id)
             return redirect(url_for('books'))
 

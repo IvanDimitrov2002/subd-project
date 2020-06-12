@@ -23,6 +23,10 @@
                     <input type="hidden" name="target" value="delete">
                     <button type="submit" class="delete-button">Delete</button>
                 </form>
+                <form action="/book" method="GET">
+                    <input type="hidden" name="id" value="{{ book.id }}">
+                    <button type="submit" class="update-button">Update</button>
+                </form>
             </div>
             {% endfor %}
         </div>

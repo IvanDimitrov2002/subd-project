@@ -13,11 +13,7 @@
             <div class="book">
                 <h3 class="book-title">{{ author.name }}</h3>
                 <ul class="book-info">
-                    <!-- <li><span>Books:</span> 
-                        {% for book in author.books %}
-                            {{ book.genre }}
-                        {% endfor %}
-                    </li> -->
+                    
                 </ul>
                 <form action="/authors" method="POST">
                     <input type="hidden" name="id" value="{{ author.id }}">

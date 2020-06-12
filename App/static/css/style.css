@@ -83,7 +83,8 @@ a {
 }
 
 .main-content .content-form .form-submit,
-.book-content .book .delete-button {
+.book-content .book .delete-button,
+.update-button {
     padding: 13px 20px;
     background-color: #ffcc00;
     border: 0;
@@ -95,7 +96,8 @@ a {
 }
 
 .main-content .content-form .form-submit:hover,
-.book-content .book .delete-button:hover {
+.book-content .book .delete-button:hover,
+.update-button:hover {
     background-color: #b38f00;
     color: white;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -147,6 +149,11 @@ a {
 
 .book-content .book .book-info li span {
     font-weight: 600;
+}
+
+.update-button {
+    width: 100%;
+    margin-top: 10px;
 }
 
 .book-content .book .delete-button {
