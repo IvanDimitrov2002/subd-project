@@ -69,6 +69,20 @@ def get_author_by_id(auth_id):
             print(e)
 
 
+def get_all_authors():
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Authors;'''
+            res = conn.cursor()
+            res.execute(query)
+            return res.fetchall()
+
+        except Error as e:
+            print(e)
+
+
 def get_all_books():
     with DB() as conn:
         conn.connect(database="Library")
@@ -201,3 +215,7 @@ def delete_book_by_id(book_id):
         except Error as e:
             conn.rollback()
             print(e)
+
+
+def delete_author_by_id(author_id):
+    pass
