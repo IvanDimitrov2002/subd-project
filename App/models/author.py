@@ -1,7 +1,7 @@
 from database import database_funcs as database
 import sys
-if "Book" not in sys.modules:
-    from models.book import Book
+# if "Book" not in sys.modules:
+#     from models.book import Book
 
 
 class Author:

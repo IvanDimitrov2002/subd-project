@@ -8,11 +8,10 @@ import database.create as database
 import database.database_funcs as db_funcs
 import sys
 
-#todo fix imports
-if "Book" not in sys.modules:
-    from models.book import Book
-if "Author" not in sys.modules:
-    from models.author import Author
+# if "Book" not in sys.modules:
+from models.book import Book
+# if "Author" not in sys.modules:
+from models.author import Author
 
 app = Flask(__name__)
 

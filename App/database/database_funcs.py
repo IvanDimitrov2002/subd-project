@@ -238,7 +238,7 @@ def get_book_authors(book_id):
                        ON Authors.Id = AuthorsBooks.Auth_id
                        INNER JOIN Books
                        ON Books.Id = AuthorsBooks.Book_id
-                       WHERE Book.Id = %s;'''
+                       WHERE Books.Id = %s;'''
             res = conn.cursor()
             res.execute(query, (book_id, ))
             return res.fetchall()
