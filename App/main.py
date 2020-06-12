@@ -15,12 +15,23 @@ def view_books():
     if request.method == 'GET':
         books = []
         search_result = request.args.get('title')
-        books = Book.find_by_substring(search_result)
-        if(books is None):
-            books = Book.get_all_books()
-        if(books is None):
-            return render_template('index.html')
-        return render_template('books.html', books=books)
+
+        if request.args.get('search') == 'book':
+            books = Book.find_by_substring(search_result)
+            if(books is None):
+                books = Book.get_all_books()
+            if(books is None):
+                return render_template('index.html')
+            return render_template('books.html', books=books)
+
+        elif request.args.get('search') == 'author':
+            books = Book.find_by_author(search_result)
+            if(books is None):
+                books = Book.get_all_books()
+            if(books is None):
+                return render_template('index.html')
+            return render_template('books.html', books=books)
+
     if request.method == 'POST' and request.form["target"] == 'delete':
         if Book.delete_book_by_id(request.form["id"]):
             books = Book.get_all_books()
