@@ -55,6 +55,20 @@ def get_author_by_name(auth_name):
             print(e)
 
 
+def get_author_by_id(auth_id):
+    with DB() as conn:
+        conn.connect(database="Library")
+        try:
+            query = '''SELECT *
+                       FROM Authors
+                       WHERE Id = %s;'''
+            res = conn.cursor().execute(query, (auth_id, )).fetchone()
+            return res
+
+        except Error as e:
+            print(e)
+
+
 def get_all_books():
     with DB() as conn:
         conn.connect(database="Library")

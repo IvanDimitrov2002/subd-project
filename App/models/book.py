@@ -1,6 +1,4 @@
 from database import database_funcs as database
-from database.connect_db import DB
-from mysql.connector import Error
 
 
 class Book:
@@ -12,16 +10,7 @@ class Book:
         self.date = date
 
     def add_book(self):
-        with DB() as conn:
-            conn.connect(database="Library")
-            try:
-                conn.cursor().execute('''
-                    INSERT INTO Books
-                    VALUES(NULL, %s, %s, %s, %s)
-                ''', (self.isbn, self.genre, self.title, self.date))
-
-            except Error as e:
-                print(e)
+        database.add_book(self.title, self.genre, self.isbn, self.date)
 
     @staticmethod
     def find_by_id(id):
@@ -62,6 +51,17 @@ class Book:
             return None
         else:
             rows = database.get_books_by_substring(substring)
+            if rows:
+                return [Book(*row) for row in rows]
+            else:
+                return None
+
+    @staticmethod
+    def find_by_author(author):
+        if not author:
+            return None
+        else:
+            rows = database.get_books_by_auth_name(author)
             if rows:
                 return [Book(*row) for row in rows]
             else:
