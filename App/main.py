@@ -15,26 +15,26 @@ def hello_world():
 def view_books():
     if request.method == 'GET':
         books = []
-        search_result = request.args.get('title')
+        req = request.args
 
-        if request.args.get('search') == 'book':
-            books = Book.find_by_substring(search_result)
+        if req.get('search') == 'book':
+            books = Book.find_by_substring(req.get('title'))
             if(books is None):
                 books = Book.get_all_books()
             if(books is None):
                 return render_template('index.html')
             return render_template('books.html', books=books)
 
-        elif request.args.get('search') == 'genre':
-            books = Book.find_by_genre(search_result)
+        elif req.get('search') == 'genre':
+            books = Book.find_by_genre(req.get('title'))
             if(books is None):
                 books = Book.get_all_books()
             if(books is None):
                 return render_template('index.html')
             return render_template('books.html', books=books)
 
-        elif request.args.get('search') == 'author':
-            books = Book.find_by_author(search_result)
+        elif req.get('search') == 'author':
+            books = Book.find_by_author(req.get('title'))
             if(books is None):
                 books = Book.get_all_books()
             if(books is None):
