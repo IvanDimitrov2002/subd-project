@@ -52,8 +52,7 @@ def add_book(isbn, genre, title, date, authors):
                        WHERE Title = %s;'''
             res = conn.cursor()
             res.execute(query, (title, ))
-            id_b = res.fetchone()
-            print(title)
+            id_b = res.fetchone()[0]
 
             query_id_auth = '''SELECT Id
                        FROM Authors

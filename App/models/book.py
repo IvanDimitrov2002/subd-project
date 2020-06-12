@@ -1,5 +1,5 @@
 from database import database_funcs as database
-
+from models.author import Author
 
 class Book:
     def __init__(self, id, isbn, genre, title, date, authors=None):
