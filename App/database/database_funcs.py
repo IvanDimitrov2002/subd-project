@@ -50,6 +50,8 @@ def add_book(isbn, genre, title, date, authors):
                 if not row:
                     res.execute(query, (i, ))
                     id_authors.append(res.lastrowid)
+                else:
+                    id_authors.append(row[0])
 
             for i in id_authors:
                 query = '''INSERT INTO AuthorsBooks
