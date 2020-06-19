@@ -38,34 +38,23 @@ def add_book(isbn, genre, title, date, authors):
         try:
             query = '''INSERT INTO Books
                        VALUES(NULL, %s, %s, %s, %s);'''
-            conn.cursor().execute(query, (isbn, genre, title, date))
+            res = conn.cursor()
+            res.execute(query, (isbn, genre, title, date))
+            id_b = res.lastrowid
+            id_authors = []
 
             query = '''INSERT INTO Authors
                        VALUES(NULL, %s);'''
             for i in authors:
                 row = get_author_by_name(i)
                 if not row:
-                    conn.cursor().execute(query, (i, ))
+                    res.execute(query, (i, ))
+                    id_authors.append(res.lastrowid)
 
-            query = '''SELECT Id
-                       FROM Books
-                       WHERE Title = %s;'''
-            res = conn.cursor()
-            res.execute(query, (title, ))
-            id_b = res.fetchone()[0]
-
-            query_id_auth = '''SELECT Id
-                       FROM Authors
-                       WHERE Name = %s;'''
-
-            for i in authors:
-                res = conn.cursor()
-                res.execute(query_id_auth, (i, ))
-
-                id_auth = res.fetchone()[0]
+            for i in id_authors:
                 query = '''INSERT INTO AuthorsBooks
                         VALUES(%s, %s);'''
-                conn.cursor().execute(query, (id_b, id_auth))
+                res.execute(query, (id_b, i))
             conn.commit()
 
         except Error as e:
@@ -85,31 +74,28 @@ def update_book(id, title, genre, isbn, date, authors):
                            Genre = %s,
                            Date  = %s
                        WHERE Id = %s;'''
-            conn.cursor().execute(query, (title, isbn, genre, date, id))
+            res = conn.cursor()
+            res.execute(query, (title, isbn, genre, date, id))
+            id_authors = []
 
             query = '''INSERT INTO Authors
                        VALUES(NULL, %s);'''
             for i in authors:
                 row = get_author_by_name(i)
                 if not row:
-                    conn.cursor().execute(query, (i, ))
+                    res.execute(query, (i, ))
+                    id_authors.append(res.lastrowid)
+                else:
+                    id_authors.append(row[0])
 
             query = '''DELETE FROM AuthorsBooks WHERE Book_id
             = %s'''
-            conn.cursor().execute(query, (id, ))
+            res.execute(query, (id, ))
 
-            query_id_auth = '''SELECT Id
-                       FROM Authors
-                       WHERE Name = %s;'''
-
-            for i in authors:
-                res = conn.cursor()
-                res.execute(query_id_auth, (i, ))
-
-                id_auth = res.fetchone()[0]
+            for i in id_authors:
                 query = '''INSERT INTO AuthorsBooks
                         VALUES(%s, %s);'''
-                conn.cursor().execute(query, (id, id_auth))
+                res.execute(query, (id, i))
 
             conn.commit()
 
